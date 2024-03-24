@@ -4,13 +4,19 @@ import swaggerConfig from '@modules/config/config/swagger.config'
 import JwtConfig from '@modules/config/config/jwt.config'
 import { ConfigModule as ConfigNestModule } from '@nestjs/config'
 import { validate } from '@modules/config/env.validation'
+import googleConfig from '@modules/config/config/google.config'
 
 @Module({
     imports: [
         ConfigNestModule.forRoot({
             envFilePath: `env/.env.${process.env.NODE_ENV}`,
             isGlobal: true,
-            load: [appConfig, swaggerConfig, JwtConfig],
+            load: [
+                appConfig,
+                swaggerConfig,
+                JwtConfig,
+                googleConfig
+            ],
             validate: validate,
         }),
     ],

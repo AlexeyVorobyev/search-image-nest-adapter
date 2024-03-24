@@ -16,26 +16,6 @@ class EnvironmentVariables {
 
 	@IsString()
 	@IsNotEmpty()
-	DB_HOST: string
-
-	@IsNumber()
-	@IsNotEmpty()
-	DB_PORT: number
-
-	@IsString()
-	@IsNotEmpty()
-	DB_USER: string
-
-	@IsString()
-	@IsNotEmpty()
-	DB_PASSWORD: string
-
-	@IsString()
-	@IsNotEmpty()
-	DB_NAME: string
-
-	@IsString()
-	@IsNotEmpty()
 	SWAGGER_SITE_TITLE: string
 
 	@IsString()
@@ -52,6 +32,10 @@ class EnvironmentVariables {
 
 	@IsString()
 	SWAGGER_SERVER_PREFIX: string
+
+	@IsString()
+	@IsNotEmpty()
+	GOOGLE_ROOT_API: string
 }
 
 export function validate(config: Record<string, unknown>) {
