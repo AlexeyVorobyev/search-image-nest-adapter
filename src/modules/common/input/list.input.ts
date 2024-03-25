@@ -21,7 +21,7 @@ export class ListInput {
     page?: number = 0
 
     @ApiProperty({
-        default: 5,
+        default: 10,
         required: false,
         type: Number,
     })
@@ -29,7 +29,7 @@ export class ListInput {
     @IsNumber()
     @IsOptional()
     @Type(() => Number)
-    perPage?: number = 8
+    perPage?: number = 10
 
     @ApiProperty({
         default: '',

@@ -1,10 +1,10 @@
 import { EGoogleEndpoint } from '@core/google/enum/google-endpoint.enum'
-import { EImageParam } from '@core/google/image/enum/image-param.enum'
+import { EGoogleImageParam } from '@core/google/image/enum/google-image-param.enum'
 
-export class GoogleQueryBuilder {
-    constructor(
+export abstract class SourceQueryBuilder {
+    protected constructor(
         private readonly root: string,
-        private readonly endpoint: EGoogleEndpoint,
+        private readonly endpoint: string,
     ) {
         this.query = new URL(`${this.root}/${this.endpoint}`)
     }
@@ -19,17 +19,8 @@ export class GoogleQueryBuilder {
         return this.query
     }
 
-    setImageParam(key: EImageParam, values: string[]) {
-        this.setParam(key, values)
-
-        return this
-    }
-
-    private setParam(key: string, values: string[]) {
-        console.log(values)
+    protected setParam(key: string, values: string[]) {
         const formattedValues = values.join(',')
-
-        console.log(formattedValues)
 
         this.query.searchParams.set(key, formattedValues)
     }

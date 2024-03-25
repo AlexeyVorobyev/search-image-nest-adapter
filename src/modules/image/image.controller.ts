@@ -3,6 +3,7 @@ import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiTags } from '@ne
 import { ImageListInput } from '@modules/image/input/image-list.input'
 import { ImageService } from '@modules/image/image.service'
 import { UniversalExceptionAttributes } from '@src/shared-modules/common/attributes/universal-exception.attributes'
+import { ImageListAttributes } from '@modules/image/attributes/image-list.attributes'
 
 @Controller('image')
 @ApiTags('image')
@@ -18,7 +19,7 @@ export class ImageController {
     })
     @ApiOkResponse({
         description: 'Image list successfully received',
-        type: [String],
+        type: ImageListAttributes,
     })
     @ApiOperation({
         summary: 'Image links list endpoint',

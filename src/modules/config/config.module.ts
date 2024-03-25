@@ -5,6 +5,7 @@ import JwtConfig from '@modules/config/config/jwt.config'
 import { ConfigModule as ConfigNestModule } from '@nestjs/config'
 import { validate } from '@modules/config/env.validation'
 import googleConfig from '@modules/config/config/google.config'
+import yandexConfig from '@modules/config/config/yandex.config'
 
 @Module({
     imports: [
@@ -15,7 +16,8 @@ import googleConfig from '@modules/config/config/google.config'
                 appConfig,
                 swaggerConfig,
                 JwtConfig,
-                googleConfig
+                googleConfig,
+                yandexConfig
             ],
             validate: validate,
         }),

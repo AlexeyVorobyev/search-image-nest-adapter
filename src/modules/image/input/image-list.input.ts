@@ -1,14 +1,29 @@
 import { ApiProperty, PickType } from '@nestjs/swagger'
 import { ListInput } from '@modules/common/input/list.input'
 import { EImageSource } from '@core/enum/image-source.enum'
-import { IsEnum, IsOptional } from 'class-validator'
+import { IsBoolean, IsEnum, IsOptional } from 'class-validator'
+import { Transform } from 'class-transformer'
+import { apiPayloadToBooleanAdapter } from '@modules/common/adapter/api-payload-to-boolean.adapter'
 
-export class ImageListInput extends PickType(ListInput, ['simpleFilter']) {
+export class ImageListInput extends PickType(ListInput, ['simpleFilter', 'page', 'perPage']) {
     @IsOptional()
     @IsEnum(EImageSource)
     @ApiProperty({
         description: 'Source of retrieved data',
-        enum: EImageSource
+        enum: EImageSource,
+        default: EImageSource.google,
+        required: false,
     })
-    source:EImageSource = EImageSource.google
+    source: EImageSource = EImageSource.google
+
+    @IsOptional()
+    @IsBoolean()
+    @Transform(apiPayloadToBooleanAdapter)
+    @ApiProperty({
+        description: 'Perform healthcheck of images',
+        default: false,
+        required: false,
+        type: Boolean,
+    })
+    healthCheck: boolean = false
 }

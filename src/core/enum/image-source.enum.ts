@@ -1,3 +1,4 @@
 export enum EImageSource {
-    google = 'google'
+    google = 'google',
+    yandex = 'yandex'
 }

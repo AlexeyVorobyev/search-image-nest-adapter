@@ -2,9 +2,9 @@ import { GoogleFetchService } from '@core/google/fetch/google-fetch.service'
 import { Inject, Injectable } from '@nestjs/common'
 import googleConfig from '@modules/config/config/google.config'
 import { ConfigType } from '@nestjs/config'
-import { GoogleQueryBuilder } from '@core/google/query-builder/google.query-builder'
+import { GoogleQueryBuilder } from '@core/google/google.query-builder'
 import { EGoogleEndpoint } from '@core/google/enum/google-endpoint.enum'
-import { EImageParam } from '@core/google/image/enum/image-param.enum'
+import { EGoogleImageParam } from '@core/google/image/enum/google-image-param.enum'
 import { TBM_PARAM_VALUE } from '@core/google/image/const'
 import { SourceImageService } from '@core/class/source-image.service'
 import { EImageSource } from '@core/enum/image-source.enum'
@@ -28,10 +28,8 @@ export class GoogleImageService extends SourceImageService {
         )
 
         googleQueryBuilder
-            .setImageParam(EImageParam.tbm, [TBM_PARAM_VALUE])
-            .setImageParam(EImageParam.search, [input])
-
-        console.log(googleQueryBuilder.toString())
+            .setImageParam(EGoogleImageParam.tbm, [TBM_PARAM_VALUE])
+            .setImageParam(EGoogleImageParam.search, [input])
 
         const result = await this.googleFetchService.fetch(googleQueryBuilder.toString())
 
