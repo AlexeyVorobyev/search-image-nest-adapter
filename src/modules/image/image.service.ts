@@ -1,4 +1,4 @@
-import { Injectable, MethodNotAllowedException } from '@nestjs/common'
+import { Inject, Injectable, MethodNotAllowedException } from '@nestjs/common'
 import { ImageListInput } from '@modules/image/input/image-list.input'
 import { ModuleRef } from '@nestjs/core'
 import { EImageSource } from '@core/enum/image-source.enum'
@@ -9,10 +9,18 @@ import { SourceImageParser } from '@modules/parser/image/class/source-image.pars
 import { ImageListAttributes } from '@modules/image/attributes/image-list.attributes'
 import { Builder } from 'builder-pattern'
 import { ListMetaAttributes } from '@modules/common/attributes/list-meta.attributes'
+import { HttpService } from '@nestjs/axios'
+import { firstValueFrom } from 'rxjs'
+import { resolveAllProperties } from '@src/shared-modules/common/common/resolve-all-properties.function'
+import { ConfigType } from '@nestjs/config'
+import imageServiceConfig from '@modules/config/config/image-service.config'
 
 @Injectable()
 export class ImageService {
     constructor(
+        @Inject(imageServiceConfig.KEY)
+        private imageServiceConfiguration: ConfigType<typeof imageServiceConfig>,
+        private httpService: HttpService,
         private moduleRef: ModuleRef,
     ) {
     }
@@ -28,7 +36,29 @@ export class ImageService {
 
         const rawData = await sourceImageService.sourceImageListFetch(input.simpleFilter)
 
-        const parsedData = await sourceImageParser.sourceImageParse(rawData)
+        let parsedData = await sourceImageParser.sourceImageParse(rawData)
+
+        console.log(input.healthCheck)
+
+        if (input.healthCheck) {
+            const healthCheckResults = await Promise.all(
+                parsedData.map((link) => (
+                    resolveAllProperties(
+                        {
+                            link: link,
+                            healthCheckResult: this.healthCheck(
+                                link,
+                                input.healthCheckTimeout || this.imageServiceConfiguration.requestConnectionTimeout,
+                            ),
+                        },
+                    )
+                )),
+            )
+
+            parsedData = healthCheckResults
+                .filter((item) => item.healthCheckResult)
+                .map((item) => item.link)
+        }
 
         return Builder<ImageListAttributes>()
             .data(
@@ -46,6 +76,29 @@ export class ImageService {
                     .build(),
             )
             .build()
+    }
+
+    private async healthCheck(link: string, timeout: number): Promise<boolean> {
+        const controller = new AbortController()
+        try {
+            let response = null
+
+            setTimeout(() => {
+                if (response === null) {
+                    controller.abort()
+                }
+            }, timeout)
+
+            response = await firstValueFrom(
+                this.httpService.get(link, {
+                    signal: controller.signal,
+                }),
+            )
+
+            return true
+        } catch (e) {
+            return false
+        }
     }
 
     private async getSourceImageService(key: EImageSource) {

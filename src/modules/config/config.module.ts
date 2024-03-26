@@ -6,6 +6,7 @@ import { ConfigModule as ConfigNestModule } from '@nestjs/config'
 import { validate } from '@modules/config/env.validation'
 import googleConfig from '@modules/config/config/google.config'
 import yandexConfig from '@modules/config/config/yandex.config'
+import imageServiceConfig from '@modules/config/config/image-service.config'
 
 @Module({
     imports: [
@@ -17,7 +18,8 @@ import yandexConfig from '@modules/config/config/yandex.config'
                 swaggerConfig,
                 JwtConfig,
                 googleConfig,
-                yandexConfig
+                yandexConfig,
+                imageServiceConfig,
             ],
             validate: validate,
         }),
