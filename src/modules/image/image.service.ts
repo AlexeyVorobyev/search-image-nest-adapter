@@ -11,7 +11,7 @@ import { Builder } from 'builder-pattern'
 import { ListMetaAttributes } from '@modules/common/attributes/list-meta.attributes'
 import { HttpService } from '@nestjs/axios'
 import { firstValueFrom } from 'rxjs'
-import { resolveAllProperties } from '@src/shared-modules/common/common/resolve-all-properties.function'
+import { resolveAllProperties } from '@src/shared-modules/common/function/resolve-all-properties.function'
 import { ConfigType } from '@nestjs/config'
 import imageServiceConfig from '@modules/config/config/image-service.config'
 
