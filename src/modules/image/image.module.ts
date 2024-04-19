@@ -5,6 +5,7 @@ import { ImageService } from '@modules/image/image.service'
 import { ParserModule } from '@modules/parser/parser.module'
 import { YandexModule } from '@core/yandex/yandex.module'
 import { HttpModule } from '@nestjs/axios'
+import {JwtOauth2Module} from '@src/shared-modules/jwt-oauth2/jwt-oauth2.module'
 
 @Module({
     imports: [
@@ -12,6 +13,7 @@ import { HttpModule } from '@nestjs/axios'
         GoogleModule,
         YandexModule,
         ParserModule,
+        JwtOauth2Module
     ],
     controllers: [
         ImageController,

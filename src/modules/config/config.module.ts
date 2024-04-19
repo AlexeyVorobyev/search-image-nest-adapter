@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common'
 import appConfig from '@modules/config/config/app.config'
 import swaggerConfig from '@modules/config/config/swagger.config'
-import JwtConfig from '@modules/config/config/jwt.config'
 import { ConfigModule as ConfigNestModule } from '@nestjs/config'
 import { validate } from '@modules/config/env.validation'
 import googleConfig from '@modules/config/config/google.config'
@@ -16,7 +15,6 @@ import imageServiceConfig from '@modules/config/config/image-service.config'
             load: [
                 appConfig,
                 swaggerConfig,
-                JwtConfig,
                 googleConfig,
                 yandexConfig,
                 imageServiceConfig,
